@@ -1,9 +1,9 @@
-2026-07-06 15:46:06,953 | INFO     | Job started - resolved CLI arguments: input=data.csv, config=config.yaml, output=metrics.json, log_file=run.log
-2026-07-06 15:46:06,953 | INFO     | Configuration loaded
-2026-07-06 15:46:06,953 | INFO     | Configuration validated - seed: 42, window: 5, version: v1
-2026-07-06 15:46:06,953 | INFO     | Random seed set: 42
-2026-07-06 15:46:06,969 | INFO     | Rows loaded: 10000
-2026-07-06 15:46:06,972 | INFO     | Rolling mean computed (window=5)
-2026-07-06 15:46:06,973 | INFO     | Signal generation complete
-2026-07-06 15:46:06,974 | INFO     | Metrics: rows_processed=10000, signal_rate=0.4991, latency_ms=21
-2026-07-06 15:46:06,974 | INFO     | Job finished — status=success
+2026-07-06 15:54:06,264 | INFO     | Job started - resolved CLI arguments: input=data.csv, config=config.yaml, output=metrics.json, log_file=run.log
+2026-07-06 15:54:06,265 | INFO     | Configuration loaded
+2026-07-06 15:54:06,265 | INFO     | Configuration validated - seed: 42, window: 5, version: v1
+2026-07-06 15:54:06,265 | INFO     | Random seed set: 42
+2026-07-06 15:54:06,276 | INFO     | Rows loaded: 10000
+2026-07-06 15:54:06,276 | INFO     | Rolling mean computed (window=5)
+2026-07-06 15:54:06,277 | INFO     | Signal generation complete
+2026-07-06 15:54:06,277 | INFO     | Metrics: rows_processed=10000, signal_rate=0.4991, latency_ms=13
+2026-07-06 15:54:06,278 | INFO     | Job finished — status=success

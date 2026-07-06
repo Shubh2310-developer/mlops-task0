@@ -18,13 +18,11 @@ import numpy as np
 import pandas as pd
 import yaml
 
-# Module constants
 REQUIRED_CONFIG_KEYS = ("seed", "window", "version")
 METRIC_NAME = "signal_rate"
 LOG_FORMAT = "%(asctime)s | %(levelname)-8s | %(message)s"
 
 
-# Exception Taxonomy
 class PipelineError(Exception):
     """Base class for all handled pipeline failures."""
 
@@ -45,7 +43,6 @@ class DatasetValidationError(PipelineError):
     """Dataset parsed but empty or missing required columns. Recoverable."""
 
 
-# Pure Logic Functions
 def validate_config(config_dict: Any) -> Dict[str, Any]:
     """Validates the configuration dictionary types and constraints.
 
@@ -113,7 +110,6 @@ def validate_dataset(df: pd.DataFrame) -> pd.DataFrame:
         )
 
     try:
-        # Coerce 'close' to numeric. Preserves NaNs, throws ValueError for strings.
         df = df.copy()
         df["close"] = pd.to_numeric(df["close"], errors="raise")
     except Exception as exc:
@@ -134,7 +130,7 @@ def compute_rolling_mean(series: pd.Series, window: int) -> pd.Series:
     Returns:
         The computed rolling mean series.
     """
-    # First window - 1 rows must evaluate to NaN (no warm-up substitution).
+    # First window-1 rows are NaN by design (warm-up).
     return series.rolling(window=window, min_periods=window).mean()
 
 
@@ -148,8 +144,6 @@ def generate_signal(close: pd.Series, rolling_mean: pd.Series) -> pd.Series:
     Returns:
         The binary signal series (1, 0, or NaN).
     """
-    # Signal is 1 if close > rolling_mean else 0
-    # Signal must be NaN where rolling_mean is NaN (warm-up rows or in-series NaNs)
     signal = pd.Series(np.where(close > rolling_mean, 1, 0), index=close.index)
     signal[rolling_mean.isna()] = np.nan
     return signal
@@ -209,7 +203,6 @@ def build_error_metrics(
     }
 
 
-# I/O Functions
 def load_config(config_path: str) -> Dict[str, Any]:
     """Loads the YAML configuration file.
 
@@ -302,13 +295,11 @@ def setup_logging(log_file: str) -> logging.Logger:
 
     formatter = logging.Formatter(LOG_FORMAT)
 
-    # File handler (created/truncated in write mode)
     file_handler = logging.FileHandler(log_file, mode="w")
     file_handler.setLevel(logging.INFO)
     file_handler.setFormatter(formatter)
     logger.addHandler(file_handler)
 
-    # Stream handler to stderr (logs go to stderr to keep stdout clean for JSON)
     stream_handler = logging.StreamHandler(sys.stderr)
     stream_handler.setLevel(logging.INFO)
     stream_handler.setFormatter(formatter)
@@ -317,7 +308,6 @@ def setup_logging(log_file: str) -> logging.Logger:
     return logger
 
 
-# Main Logic Control
 def parse_args() -> argparse.Namespace:
     """Parses command line arguments.
 
